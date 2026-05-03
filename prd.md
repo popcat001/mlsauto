@@ -21,3 +21,16 @@ do a websearch on Zillow/Redfin to determine the basic info of the property: pro
 - Map Search
     - within: 1 mile
     - address: house address
+
+
+Requirement 2. 
+
+I want to create a webservice to do the same. instead of login website, use API; the MLS_API_KEY is in .env file. And the api docs are here: https://repliers.com/?utm_source=google&utm_medium=search&utm_campaign=general-kw-usa&gad_source=1&gad_campaignid=22237667035&gbraid=0AAAAACxYWdy2N2qbDnvCHyewgdzm9IUgo&gclid=CjwKCAjw5NvPBhAoEiwA_2egfkDZqcIEW9SyHKXm7waAVXhqrgeMcNHtwvXQN0eBZAaF1EVcMUwSFRoCmAMQAvD_BwE.
+
+ON the UI
+1. input address
+2. then do websearch, show the property details; 
+3. autofill search parameters (editable)
+4. search and retrieve the comparison analysis as a table
+
+Use frontend skills to build the UI
