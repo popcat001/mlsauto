@@ -12,17 +12,28 @@ Rules:
 
 Expected table columns:
 
-- Address
-- Sold price
-- Sold date
-- Property type
-- Beds
-- Baths
+- Distance
+- Status
+- Last Change Date
+- M.O.
+- MLS #
+- Street Address
+- Price
+- DOM
+- Bds
+- Bths
 - SqFt
-- Lot size
-- Distance from subject
+- Lot Size
+- Postal City
+- Class
+- Age
+
+Omit UI-only result-grid controls such as row checkboxes, thumbnail icons, map/action icons, and empty action columns.
+
+Optional analysis columns may be added after the MLS-style columns when useful:
+
+- Address
 - Price per SqFt
-- Listing/source ID
 
 Implementation guidance:
 
