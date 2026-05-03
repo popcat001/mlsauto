@@ -10,7 +10,7 @@ from datetime import date
 from pathlib import Path
 
 from dotenv import load_dotenv
-from playwright.sync_api import Page, sync_playwright
+from playwright.sync_api import Locator, Page, TimeoutError as PlaywrightTimeout, sync_playwright
 
 load_dotenv(Path(__file__).parent / ".env")
 
@@ -113,7 +113,7 @@ def fill_after_text(page: Page, label: str, value: str, *, contains: bool = Fals
         raise RuntimeError(f"Could not find input after {label!r}")
 
 
-def type_after_text(page: Page, label: str, value: str, *, contains: bool = False) -> None:
+def type_after_text(page: Page, label: str, value: str, *, contains: bool = False) -> Locator:
     ok = page.evaluate(
         """({ label, contains }) => {
             const visible = el => {
@@ -152,6 +152,60 @@ def type_after_text(page: Page, label: str, value: str, *, contains: bool = Fals
     field.click()
     field.press("ControlOrMeta+A")
     field.type(value, delay=35)
+    return field
+
+
+def click_address_suggestion(page: Page, address: str, address_field: Locator) -> None:
+    first_word = address.split()[0]
+    try:
+        page.wait_for_function(
+            """word => document.body.innerText.includes('Did you mean:') &&
+                document.body.innerText.includes(word)""",
+            arg=first_word,
+            timeout=3000,
+        )
+    except PlaywrightTimeout:
+        return
+    point = page.evaluate(
+        """address => {
+            const visible = el => {
+                const style = window.getComputedStyle(el);
+                const rect = el.getBoundingClientRect();
+                return style.display !== 'none' &&
+                    style.visibility !== 'hidden' &&
+                    rect.width > 0 &&
+                    rect.height > 0;
+            };
+
+            const needle = address.split(/\\s+/).slice(0, 2).join(' ').toLowerCase();
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+            while (walker.nextNode()) {
+                const node = walker.currentNode;
+                const text = (node.nodeValue || '').trim();
+                const parent = node.parentElement;
+                if (!parent || !visible(parent) || parent.tagName === 'INPUT') continue;
+                if (!text.toLowerCase().includes(needle)) continue;
+
+                const range = document.createRange();
+                range.selectNodeContents(node);
+                const rect = [...range.getClientRects()].find(r => r.width > 0 && r.height > 0);
+                if (!rect) continue;
+                return { x: rect.left + Math.min(24, rect.width / 3), y: rect.top + rect.height / 2 };
+            }
+            return null;
+        }""",
+        address,
+    )
+    if not point:
+        return
+    page.mouse.move(point["x"], point["y"], steps=15)
+    page.wait_for_timeout(800)
+    page.mouse.click(point["x"], point["y"])
+    page.wait_for_timeout(500)
+
+    if not address_field.input_value().strip():
+        address_field.click()
+        address_field.type(address, delay=35)
 
 
 def select_option_after_heading(page: Page, heading: str, option_text: str) -> None:
@@ -199,7 +253,8 @@ def fill_form(page: Page, criteria: SearchCriteria) -> None:
     fill_after_text(page, "SqFt", criteria.sqft_min)
     fill_after_text(page, "Lot Size", criteria.lot_size_min)
     fill_after_text(page, "Within", criteria.within_miles, contains=True)
-    type_after_text(page, "miles of", criteria.address, contains=True)
+    address_field = type_after_text(page, "miles of", criteria.address, contains=True)
+    click_address_suggestion(page, criteria.address, address_field)
 
 
 def wait_before_close(no_pause: bool) -> None:
@@ -238,7 +293,7 @@ def run(facts: PropertyFacts, *, dry_run: bool = False, headless: bool = False, 
         page.wait_for_selector("select, input", state="attached", timeout=15000)
         fill_form(page, criteria)
 
-        print("Search parameters filled. Address suggestion was not clicked; search was not submitted.")
+        print("Search parameters filled and address suggestion confirmed. Search was not submitted.")
         wait_before_close(no_pause)
         browser.close()
 
