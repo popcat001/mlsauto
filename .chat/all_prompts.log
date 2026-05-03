@@ -1,0 +1,89 @@
+===========
+[2026-05-03 00:02:32]
+/statusline
+
+===========
+[2026-05-03 00:04:22]
+1. xiang@Xiangs-Mac-mini realestate %; 2. i didn't use another prompt framework
+
+===========
+[2026-05-03 00:05:27]
+i want it to show something similar to codex statusline: gpt-5.5 medium · ~/projects/realestate · weekly 84% · 5h 100%
+
+===========
+[2026-05-03 00:07:03]
+remove current folder from statusline: ~/projects/realestate
+
+===========
+[2026-05-03 00:08:50]
+why the statusline needs me take some actions to appear; it doesn't appear when i first enter claude
+
+===========
+[2026-05-03 00:10:24]
+yes
+
+===========
+[2026-05-03 00:13:42]
+follow the instructions in 1.md
+
+===========
+[2026-05-03 00:15:07]
+why cannot you enter auto mode
+
+===========
+[2026-05-03 00:15:44]
+there is automode besides --dangerously-skip-permissions, right?
+
+===========
+[2026-05-03 00:20:59]
+how to reload the skills?
+
+===========
+[2026-05-03 00:21:23]
+/mls-search 990 rose ave, mountain view, CA 94024
+
+===========
+[2026-05-03 00:26:56]
+The requirement is in 1.md
+review claude's implementation: mls_auto/search.py and ~/.claude/SKILLS/mls-search
+
+===========
+[2026-05-03 00:28:54]
+improve and test
+
+===========
+[2026-05-03 00:36:49]
+no need to submit. i only need those parammeters to be filled in. Revise the skills. And also, can you open the browser when testing?
+
+===========
+[2026-05-03 00:40:46]
+the input address is tricky. as shown in [Image #1], after input, it will pop up a suggestion, you need to click on it to confirm
+
+===========
+[2026-05-03 00:43:09]
+it didn't click. the popup is still shown
+
+===========
+[2026-05-03 00:45:36]
+sorry, run the test again
+
+===========
+[2026-05-03 00:47:25]
+it stills shows suggestion. [Image #1]
+
+===========
+[2026-05-03 00:51:28]
+no click; the click is tricky, you need to point right on the text and wait for the mouse pointer to become a hand and then click [Image #1]
+
+===========
+[2026-05-03 00:53:50]
+it is not!!
+
+===========
+[2026-05-03 01:12:05]
+if i run python3 mls_auto/search.py --headless --no-pause "1390 Miravalle Ave Los Altos CA" "Single Family Home" myself, where will the browser open
+
+===========
+[2026-05-03 01:14:38]
+i update the the requirement in 1.md, udpate the script
+
