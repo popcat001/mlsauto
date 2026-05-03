@@ -87,3 +87,11 @@ if i run python3 mls_auto/search.py --headless --no-pause "1390 Miravalle Ave Lo
 [2026-05-03 01:14:38]
 i update the the requirement in 1.md, udpate the script
 
+===========
+[2026-05-03 01:16:48]
+continue; and forget about clicking the address suggestion, make the code more concise
+
+===========
+[2026-05-03 01:21:00]
+why now the address not poping up?
+

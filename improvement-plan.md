@@ -6,3 +6,6 @@
 4. [x] Change default behavior to fill parameters only and keep the browser open.
 5. [x] Revise the `mls-search` skill to document headed testing and opt-in submit.
 6. [x] Run syntax, dry-run, and headed browser fill-only verification.
+7. [x] Update script for revised property-facts requirement and remove address-suggestion click logic.
+8. [x] Update MLS skill instructions for the new script arguments.
+9. [x] Run syntax and dry-run checks for the revised criteria math.
